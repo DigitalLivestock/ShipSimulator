@@ -8,3 +8,7 @@
 -control the ship as auto-pilot (database)
 -control the ship in manual
 -keep history of path traveled (database)
+
+![overview.png](overview.png)
+
+
