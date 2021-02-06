@@ -63,7 +63,7 @@ class Chart:
 
 
 if __name__ == "__main__":
-    coordinates = gps()
+    coordinates = Gps()
     chart = Chart()
     chart.start_chart(coordinates)
     while True:

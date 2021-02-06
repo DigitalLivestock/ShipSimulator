@@ -1,4 +1,4 @@
-class database_simple:
+class Database:
     def __init__(self, filename, options="a+"):
         self.filename = filename
         self.filestream = open(filename, options)
@@ -16,7 +16,7 @@ class database_simple:
 if "__main__" == __name__:
     print("--Test: database_simple--")
     print("[*]Executing constructor...")
-    db = database_simple("test_db_file.txt")
+    db = Database("test_db_file.txt")
     print("...done!")
     print("[*]Testing self.append(): ")
     db.append("line 1")

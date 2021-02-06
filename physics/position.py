@@ -2,7 +2,7 @@ import _thread as thread
 import math
 
 #Don't use in user program! Use gps instead.
-class position:
+class Position:
     def __init__(self, x=0, y=0):
         self.x = 0.0
         self.y = 0.0

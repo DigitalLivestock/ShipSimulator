@@ -1,7 +1,7 @@
 from time import sleep
 import _thread as thread
 
-class sync:
+class Sync:
     def __init__(self):
         self.global_sync = 0
 
@@ -19,6 +19,6 @@ def update_sync(sync, time):
         sleep(time)
         sync.set_global_sync()
 
-class sync_handler:
+class Sync_handler:
     def __init__(self, sync, time):
         self.sync_thread = thread.start_new_thread(update_sync, (sync, time))

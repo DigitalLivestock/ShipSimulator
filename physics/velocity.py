@@ -1,6 +1,6 @@
 import _thread as thread
 
-class velocity:
+class Velocity:
     def __init__(self):
         self.speed = 0.0     #knots
         self.direction = 0.0 #0°-360°

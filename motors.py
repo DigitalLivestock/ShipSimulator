@@ -1,4 +1,4 @@
-class main_motor:
+class Motor:
     def __init__(self):
         self.throttle = 0.0 #(-20)-30
 
@@ -13,7 +13,7 @@ class main_motor:
 
 if "__main__" == __name__:
     print("--Test: motor--")
-    motor = main_motor()
+    motor = Motor()
     print("Current throttle: " + str(motor.get_throttle()))
     print("[*]Testing set_throttle():")
     motor.set_throttle(15.0)
