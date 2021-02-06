@@ -2,6 +2,7 @@ from time                import sleep
 from motors              import main_motor
 from rudders             import main_rudder
 from chart               import Chart
+from navigation.manual   import Manual
 import navigation.gps       as gps
 import sensors.speedometer  as speedometer
 import sensors.compass      as compass
@@ -24,6 +25,7 @@ pos = position.position()
 #Navigation:
 gps_cords = gps.gps()
 chart = Chart()
+manual = Manual()
 
 #Sensors:
 #spm = speedometer.speedometer()
@@ -33,8 +35,9 @@ chart = Chart()
 vel.start_velocity(env_sync, motor, rudder) #motor and rudder must be directly passed
 pos.start_position(env_sync, vel)
 gps_cords.start_gps(env_sync, pos)
-chart.start_chart(gps_cords)
-#chart.start_update_path(gps_cords)
+chart.start_chart(env_sync, gps_cords)
+manual.start_panel()
+#chart.start_update_path(env_sync, gps_cords)
 #spm.start_speedometer(env_sync, vel)
 #cps.start_compass(env_sync, vel)
 
@@ -42,12 +45,12 @@ database_x = []
 database_y = []
 
 def main():
-    motor.set_throttle(30)
-    rudder.set_rudder(40)
 
-    for i in range(20):
-        database_x.append(gps_cords.get_x())
-        database_y.append(gps_cords.get_y())
+    for i in range(30):
+        #database_x.append(gps_cords.get_x())
+        #database_y.append(gps_cords.get_y())
+        motor.set_throttle(manual.get_throttle())
+        rudder.set_rudder(manual.get_rudder())
 
         sleep(0.5)
         print("-Motor: throttle is now: " + str(motor.get_throttle()))

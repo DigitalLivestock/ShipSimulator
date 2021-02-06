@@ -19,21 +19,25 @@ class Chart:
         self.mainframe = None
 
 
-    def update_path(self, coordinates):
+    def update_path(self, sync, coordinates):
+        old_sync = 0
         while True:
-            x = coordinates.get_x() * zoom + (map_size/2)
-            y = coordinates.get_y() * zoom + (map_size/2)
-            x_old = self.old_coordinates[0] + (map_size/2)
-            y_old = self.old_coordinates[1] + (map_size/2)
+            current_sync = sync.get_global_sync()
+            if current_sync != old_sync:
+                x = coordinates.get_x() * zoom + (map_size/2)
+                y = coordinates.get_y() * zoom + (map_size/2)
+                x_old = self.old_coordinates[0] + (map_size/2)
+                y_old = self.old_coordinates[1] + (map_size/2)
 
-            line = (x, y, x_old, y_old)
-            self.old_coordinates = (x-(map_size/2), y-(map_size/2))
-            self.canvas.create_line(line, fill="blue")
-            self.canvas.create_oval(x+oval_size, y-oval_size, x-oval_size, y+oval_size, fill="red")
-            sleep(0.5)
-            self.canvas.update_idletasks() #not ideal
+                line = (x, y, x_old, y_old)
+                self.old_coordinates = (x-(map_size/2), y-(map_size/2))
+                self.canvas.create_line(line, fill="blue")
+                self.canvas.create_oval(x+oval_size, y-oval_size, x-oval_size, y+oval_size, fill="red")
+                self.canvas.update_idletasks() #not ideal
 
-    def update_chart(self, coordinates):
+                old_sync = sync
+
+    def update_chart(self, sync, coordinates):
 
         self.root = Tk()
 
@@ -46,15 +50,15 @@ class Chart:
         self.canvas = Canvas(self.mainframe, bg = "lightblue", width = str(map_size), height = str(map_size))
         self.canvas.pack(expand = True, fill = BOTH)
 
-        self.root.after(1, self.start_update_path, coordinates)
+        self.root.after(1, self.start_update_path, sync, coordinates)
         self.root.mainloop()
 
-    def start_chart(self, coordinates):
-        self.update_thread = thread.start_new_thread(self.update_chart, (coordinates,))
+    def start_chart(self, sync, coordinates):
+        self.update_thread = thread.start_new_thread(self.update_chart, (sync, coordinates,))
         print("Chart.start_chart: started thread with update_chart")
 
-    def start_update_path(self, coordinates):
-        self.update_thread_2 = thread.start_new_thread(self.update_path, (coordinates,))
+    def start_update_path(self, sync, coordinates):
+        self.update_thread_2 = thread.start_new_thread(self.update_path, (sync, coordinates,))
         print("Chart.start_update_path: started thread with update_path")
 
 
